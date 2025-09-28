@@ -1,0 +1,197 @@
+{
+  "datasets": [
+    {
+      "name": "7831424a",
+      "displayName": "marts_posts_user",
+      "queryLines": [
+        "SELECT * FROM data_platform.default.marts_posts_user"
+      ]
+    },
+    {
+      "name": "35776f2c",
+      "displayName": "marts_top_tags",
+      "queryLines": [
+        "SELECT * FROM data_platform.default.marts_top_tags limit 10;"
+      ]
+    },
+    {
+      "name": "1c0a5503",
+      "displayName": "User Answer Averages by Reputation",
+      "queryLines": [
+        "select avg(score) as avg_score, Reputation, Id  as UserId\r\n",
+        "from default.marts_posts_user\r\n",
+        "where PostType = 'Answer'\r\n",
+        "group by Id, Reputation"
+      ],
+      "catalog": "data_platform",
+      "schema": "default"
+    }
+  ],
+  "pages": [
+    {
+      "name": "cb026145",
+      "displayName": "posts_users",
+      "layout": [
+        {
+          "widget": {
+            "name": "36ab6feb",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "7831424a",
+                  "fields": [
+                    {
+                      "name": "monthly(PostCreationDate)",
+                      "expression": "DATE_TRUNC(\"MONTH\", `PostCreationDate`)"
+                    },
+                    {
+                      "name": "count(PostId)",
+                      "expression": "COUNT(`PostId`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "line",
+              "encodings": {
+                "x": {
+                  "fieldName": "monthly(PostCreationDate)",
+                  "scale": {
+                    "type": "temporal"
+                  },
+                  "displayName": "PostCreationDate"
+                },
+                "y": {
+                  "fieldName": "count(PostId)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Count of PostId"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "e09db85a",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "35776f2c",
+                  "fields": [
+                    {
+                      "name": "tag_exploded",
+                      "expression": "`tag_exploded`"
+                    },
+                    {
+                      "name": "sum(tags_count)",
+                      "expression": "SUM(`tags_count`)"
+                    }
+                  ],
+                  "disaggregated": false
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "bar",
+              "encodings": {
+                "x": {
+                  "fieldName": "tag_exploded",
+                  "scale": {
+                    "type": "categorical",
+                    "sort": {
+                      "by": "y-reversed"
+                    }
+                  },
+                  "displayName": "tag_exploded"
+                },
+                "y": {
+                  "fieldName": "sum(tags_count)",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Sum of tags_count"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 3,
+            "y": 0,
+            "width": 3,
+            "height": 6
+          }
+        },
+        {
+          "widget": {
+            "name": "e254d761",
+            "queries": [
+              {
+                "name": "main_query",
+                "query": {
+                  "datasetName": "1c0a5503",
+                  "fields": [
+                    {
+                      "name": "Reputation",
+                      "expression": "`Reputation`"
+                    },
+                    {
+                      "name": "avg_score",
+                      "expression": "`avg_score`"
+                    }
+                  ],
+                  "disaggregated": true
+                }
+              }
+            ],
+            "spec": {
+              "version": 3,
+              "widgetType": "scatter",
+              "encodings": {
+                "x": {
+                  "fieldName": "Reputation",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "Reputation"
+                },
+                "y": {
+                  "fieldName": "avg_score",
+                  "scale": {
+                    "type": "quantitative"
+                  },
+                  "displayName": "avg_score"
+                }
+              }
+            }
+          },
+          "position": {
+            "x": 0,
+            "y": 6,
+            "width": 6,
+            "height": 6
+          }
+        }
+      ],
+      "pageType": "PAGE_TYPE_CANVAS"
+    }
+  ],
+  "uiSettings": {
+    "theme": {
+      "widgetHeaderAlignment": "ALIGNMENT_UNSPECIFIED"
+    }
+  }
+}
