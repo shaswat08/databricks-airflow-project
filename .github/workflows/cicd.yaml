@@ -1,4 +1,4 @@
-name: Push airflow image to ECR 
+name: Push Airflow image to ECR 
 on:
   push:
     branches:
