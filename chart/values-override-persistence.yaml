@@ -6,6 +6,7 @@ images:
   airflow:
     repository: my-dags
     tag: ~
+    # Specifying digest takes precedence over tag.
     digest: ~
     pullPolicy: IfNotPresent
 postgresql:
@@ -26,4 +27,10 @@ dags:
     maxFailures: 0
     subPath: "dags"
     credentialsSecret: git-credentials
+
+logs:
+  persistence:
+    enabled: true
+    storageClassName: manual
+    existingClaim: airflow-logs-pvc 
 
