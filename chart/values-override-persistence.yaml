@@ -9,6 +9,7 @@ images:
     # Specifying digest takes precedence over tag.
     digest: ~
     pullPolicy: IfNotPresent
+    
 postgresql:
   enabled: true
   image:
