@@ -16,9 +16,9 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS }}
           aws-region: ap-southeast-2
       - name: Login to ECR 
-        uses: aws-actions/amazon-ecr-login@v1
+        uses: aws-actions/amazon-ecr-login@v2
       - name: Build and push docker image
-        run:
+        run: |
           IMAGE_TAG=$(date +%Y%m%d%H%M%S)
           IMAGE_NAME=my-dags
           docker build --pull --tag ${{ secrets.ECR_REGISTRY }}/$IMAGE_NAME:$IMAGE_TAG -f cicd/Dockerfile .
